@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:7333/"
+            "url": "https://getirnotesbackend.herokuapp.com/"
         }
     ],
     "tags": [
