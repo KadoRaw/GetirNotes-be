@@ -1,0 +1,296 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "GetirNotes - V 0.100",
+        "description": "GetirNotes Swagger Docs. created by Kadir Osman Üst \n\n\n\nSome useful links:\n- [The Backend repository](https://github.com/KadoRaw/GetirNotes-be)\n- [The Frontend repository](https://github.com/KadoRaw/GetirNotes-fe)",
+        "contact": {
+            "email": "kadirosmanust98@gmail.com"
+        },
+        "version": "0.100"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:7333/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Notes",
+            "description": "Notes routes"
+        }
+    ],
+    "paths": {
+        "/api/notes": {
+            "get": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Get all notes",
+                "description": "Getting all notes",
+                "operationId": "getallNotes",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SingleNote"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Could not find any notes"
+                    },
+                    "500": {
+                        "description": "Server error."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Create note with note data",
+                "description": "createNote",
+                "operationId": "createNote",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNote"
+                            }
+                        }
+                    },
+                    "description": "Note object that needs to be added to the store",
+                    "required": true
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/notes/{noteId}": {
+            "get": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Finds note by NoteId",
+                "description": "Returns note by NoteId",
+                "operationId": "getNoteById",
+                "parameters": [
+                    {
+                        "name": "noteId",
+                        "in": "path",
+                        "description": "ID of note to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SingleNote"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error."
+                    },
+                    "404": {
+                        "description": "Note not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Update note with note data",
+                "description": "updateNote",
+                "operationId": "updateNote",
+                "parameters": [
+                    {
+                        "name": "noteId",
+                        "in": "path",
+                        "description": "ID of note to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNote"
+                            }
+                        }
+                    },
+                    "description": "Note object that needs to be updated",
+                    "required": true
+                },
+                "responses": {
+                    "500": {
+                        "description": "Server error"
+                    },
+                    "404": {
+                        "description": "Note not found"
+                    },
+                    "200": {
+                        "description": "Note updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SingleNote"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Delete note with note id",
+                "description": "deleteNote",
+                "operationId": "deleteNote",
+                "parameters": [
+                    {
+                        "name": "noteId",
+                        "in": "path",
+                        "description": "ID of note to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Server error"
+                    },
+                    "404": {
+                        "description": "Note not found"
+                    },
+                    "200": {
+                        "description": "Note deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note deleted"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123123111"
+                                        }
+                                    },
+                                    "xml": {
+                                        "name": "DeletedNote"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SingleNote": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "100000"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Note Desc"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "title"
+                    },
+                    "condition": {
+                        "type": "string",
+                        "example": "noStatus"
+                    }
+                },
+                "xml": {
+                    "name": "SingleNote"
+                }
+            },
+            "CreateNote": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "example": "Note Desc"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "title"
+                    },
+                    "condition": {
+                        "type": "string",
+                        "example": "noStatus"
+                    }
+                },
+                "xml": {
+                    "name": "SingleNote"
+                }
+            },
+            "Notes": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SingleNote"
+                },
+                "xml": {
+                    "name": "Notes"
+                },
+                "example": [
+                    {
+                        "id": "1",
+                        "title": "Note 1",
+                        "content": "Content 1",
+                        "condition": "todo"
+                    },
+                    {
+                        "id": "2",
+                        "title": "Note 2",
+                        "content": "Content 2",
+                        "condition": [
+                            "globe",
+                            "circle",
+                            "round",
+                            "world"
+                        ]
+                    }
+                ],
+                "description": "Notes"
+            }
+        }
+    }
+}
